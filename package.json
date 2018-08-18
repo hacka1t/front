@@ -1,10 +1,12 @@
 {
   "name": "front",
+  "author": "TUTUZIN MARQUINHOS PAULINHO JAOZINHO LOREKINHO ANDERZIN 9ZIEG MARCUZINHO",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "react": "^16.4.2",
-    "react-dom": "^16.4.2"
+    "react-dom": "^16.4.2",
+    "socket.io-client": "^2.1.1"
   },
   "devDependencies": {
     "react-scripts": "1.1.4"
