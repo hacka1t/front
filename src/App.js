@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import Player from './assets/Player'
 import Enemy from './assets/Enemy'
 import Projectile from './assets/Projectile'
+import Lifebar from './assets/Lifebar';
 import io from 'socket.io-client'
 import './App.css'
+import Scoreboard from './assets/Scoreboard';
 const socket = io.connect('http://localhost:5000/')
 
 const SAMPLE_GAME_STATE = {
@@ -44,7 +46,8 @@ class App extends Component {
 
         this.state = {
             playerLifes: SAMPLE_GAME_STATE.playerLifes, 
-            playerTrack: SAMPLE_GAME_STATE.playerTrack, // which track the player is looking at
+			playerTrack: SAMPLE_GAME_STATE.playerTrack, // which track the player is looking at
+			score: SAMPLE_GAME_STATE.score, // really??
             playerShotCooldown: SAMPLE_GAME_STATE.playerShotCooldown, // amount of ticks before allowed to shoot again (can shoot if 0)
             projectiles: SAMPLE_GAME_STATE.projectiles,
             enemies: SAMPLE_GAME_STATE.enemies // amount of ticks before allowed to shoot again (can shoot if 0)
@@ -117,7 +120,9 @@ class App extends Component {
 								left: '2vw'
 							  }}></div>
                         ))
-                    }
+					}
+					<Lifebar playerLifes={this.state.playerLifes} />
+					<Scoreboard score={this.state.score} />
                 </content>
             </div>
         )

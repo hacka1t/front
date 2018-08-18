@@ -72,3 +72,20 @@
   left: 683px;
   top: 326px;
 }
+
+.lifebar{
+  height: auto;
+  width: auto;  
+  z-index: 15;
+  position: absolute
+}
+
+.life{
+  height: 50px;
+  width: 50px;
+}
+
+.scoreboard{
+  position: absolute;
+  top: 35px;
+}
