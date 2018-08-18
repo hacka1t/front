@@ -6,7 +6,7 @@ import Lifebar from './assets/Lifebar';
 import io from 'socket.io-client'
 import './App.css'
 import Scoreboard from './assets/Scoreboard';
-const socket = io.connect('http://192.168.0.35:3000/')
+const socket = io.connect('http://192.168.0.35:3001/')
 
 const SAMPLE_GAME_STATE = {
     // parameters
