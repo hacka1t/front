@@ -33,22 +33,32 @@
 .game {
     flex: 1;
     position: relative;
+    overflow: hidden;
 }
 
 .player {
     height: auto;
     width: 50px;
     position: absolute;
-
     left: 683px;
     top: 326px;
+    z-index: 5;
 }
 
 .enemy {
     height: 50px;
     width: 50px;
     position: absolute;
-
     left: 683px;
     top: 326px;
+    z-index: 10;
+}
+
+.track {
+  height: 1px;
+  border: 0;
+  border-top: 1px solid red;
+  position: absolute;
+  left: 683px;
+  top: 326px;
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
+import Player from './assets/Player';
+import Enemy from './assets/Enemy';
 import io from 'socket.io-client'
 import './App.css'
 const socket = io.connect('http://localhost:5000/')
@@ -20,10 +21,14 @@ const SAMPLE_GAME_STATE = {
         { track: 3, position: 0.3, id: 'projectile2' }
     ],
     enemies: [
-        { track: 1, position: 0.8, speed: 0.4, id: 'enemy1' },
-        { track: 2, position: 0.7, speed: 0.4, id: 'enemy1' },
-        { track: 3, position: 0.1, speed: 0.4, id: 'enemy1' },
-        { track: 4, position: 0.2, speed: 0.3, id: 'enemy2' }
+        { track: 1, position: 0.9, speed: 0.4, id: 'enemy1' },
+        { track: 2, position: 0.8, speed: 0.4, id: 'enemy2' },
+        { track: 3, position: 0.7, speed: 0.4, id: 'enemy3' },
+		{ track: 4, position: 0.6, speed: 0.3, id: 'enemy4' },
+		{ track: 5, position: 0.5, speed: 0.4, id: 'enemy2' },
+        { track: 6, position: 0.4, speed: 0.4, id: 'enemy3' },
+		{ track: 7, position: 0.3, speed: 0.3, id: 'enemy4' },
+		{ track: 8, position: 0.2, speed: 0.3, id: 'enemy4' }
     ],
     tick: 15
 }
@@ -59,7 +64,9 @@ class App extends Component {
                 case 'KeyA':
                     // socket.emit('turn_left', { side: 'left' })
                     this.setState({ playerTrack: (this.state.playerTrack - 1) % SAMPLE_GAME_STATE.maxTracks })
-                    break;
+					break;
+				default:
+					break;
             }
             
         })
@@ -71,12 +78,30 @@ class App extends Component {
                 <content className='game'>
                     {
                         this.state.enemies.map(enemy => (
-                            <img src='/dino.png' className='enemy'  
-                                style={{ transform: `rotate(${enemy.track * this.degPerTrack}deg) translate(${-enemy.position * this.maxDistance}px, 0px)` }} />
+							<Enemy
+								key={enemy.id} 
+								enemy={enemy}
+								degPerTrack={this.degPerTrack}
+								maxDistance={this.maxDistance}
+							/>
                         ))
                     }
-                    <img src='/narto.png' className='player' 
-                        style={{ transform: `rotate(${this.state.playerTrack * this.degPerTrack}deg)` }}/>
+                    <Player playerTrack={this.state.playerTrack} degPerTrack={this.degPerTrack} />
+					{
+                        this.state.enemies.map(enemy => (
+							<div
+							 style={{ 
+								borderTop:'1px solid blue',
+								transform: `rotate(${enemy.track * this.degPerTrack}deg)`,
+								zIndex: '1',
+								margin: 0,
+								width: '100%',
+								position: 'absolute',
+								top: '55vh',
+								left: '2vw'
+							  }}></div>
+                        ))
+                    }
                 </content>
             </div>
         )
