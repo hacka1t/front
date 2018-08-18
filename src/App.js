@@ -6,17 +6,17 @@ import Lifebar from './assets/Lifebar';
 import io from 'socket.io-client'
 import './App.css'
 import Scoreboard from './assets/Scoreboard';
-const socket = io.connect('http://localhost:5000/')
+const socket = io.connect('http://192.168.0.35:3000/')
 
 const SAMPLE_GAME_STATE = {
     // parameters
     maxTracks: 8,
-    maxLifes: 3,
+    maxLives: 3,
     intervalBetweenShots: 0.2,
     projectileSpeed: 2,
 
     // game state
-    playerLifes: 2, 
+    playerLives: 2, 
     playerTrack: 0, // which track the player is looking at
     playerShotCooldown: 0, // amount of ticks before allowed to shoot again (can shoot if 0)
     projectiles: [ // array of current projectiles
@@ -27,10 +27,10 @@ const SAMPLE_GAME_STATE = {
         { track: 2, position: 0.8, speed: 0.4, id: 'enemy2' },
         { track: 3, position: 0.7, speed: 0.4, id: 'enemy3' },
 		{ track: 4, position: 0.6, speed: 0.3, id: 'enemy4' },
-		{ track: 5, position: 0.5, speed: 0.4, id: 'enemy2' },
-        { track: 6, position: 0.4, speed: 0.4, id: 'enemy3' },
-		{ track: 7, position: 0.3, speed: 0.3, id: 'enemy4' },
-		{ track: 8, position: 0.2, speed: 0.3, id: 'enemy4' }
+		{ track: 5, position: 0.5, speed: 0.4, id: 'enemy5' },
+        { track: 6, position: 0.4, speed: 0.4, id: 'enemy6' },
+		{ track: 7, position: 0.3, speed: 0.3, id: 'enemy7' },
+		{ track: 8, position: 0.2, speed: 0.3, id: 'enemy8' }
     ],
     tick: 15,
     score: 30
@@ -45,40 +45,42 @@ class App extends Component {
         this.maxDistance = 400
 
         this.state = {
-            playerLifes: SAMPLE_GAME_STATE.playerLifes, 
+            playerLives: SAMPLE_GAME_STATE.playerLives, 
 			playerTrack: SAMPLE_GAME_STATE.playerTrack, // which track the player is looking at
 			score: SAMPLE_GAME_STATE.score, // really??
             playerShotCooldown: SAMPLE_GAME_STATE.playerShotCooldown, // amount of ticks before allowed to shoot again (can shoot if 0)
             projectiles: SAMPLE_GAME_STATE.projectiles,
             enemies: SAMPLE_GAME_STATE.enemies // amount of ticks before allowed to shoot again (can shoot if 0)
-        }
+		}
     }
 
     componentDidMount() {
 
-        // socket.on('game_state', () => {
-            
-        // })
+        socket.on('gameState', (state) => {
+			this.setState(state)
+        })
 
         window.addEventListener('keydown', (e) => {
             switch (e.code) {
                 case 'Space':
-                    // socket.emit('turn_right', { side: 'right' })
+                    socket.emit('shoot')
                     //  this.setState({ projectiles: (this.state.projectiles.position +0.1) % SAMPLE_GAME_STATE.maxTracks })
                     break;
                 case 'KeyD':
-                    // socket.emit('turn_right', { side: 'right' })
-                    this.setState({ playerTrack: (this.state.playerTrack + 1) % SAMPLE_GAME_STATE.maxTracks })
+                    socket.emit('turnRight')
+                    // this.setState({ playerTrack: (this.state.playerTrack + 1) % SAMPLE_GAME_STATE.maxTracks })
                     break;
                 case 'KeyA':
-                    // socket.emit('turn_left', { side: 'left' })
-                    this.setState({ playerTrack: (this.state.playerTrack - 1) % SAMPLE_GAME_STATE.maxTracks })
+                    socket.emit('turnLeft')
+                    // this.setState({ playerTrack: (this.state.playerTrack - 1) % SAMPLE_GAME_STATE.maxTracks })
 					break;
 				default:
 					break;
             }
             
-        })
+		})
+		
+		socket.emit('start')
     }
 
     render() {
@@ -121,7 +123,7 @@ class App extends Component {
 							  }}></div>
                         ))
 					}
-					<Lifebar playerLifes={this.state.playerLifes} />
+					<Lifebar playerLives={this.state.playerLives} />
 					<Scoreboard score={this.state.score} />
                 </content>
             </div>

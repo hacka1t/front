@@ -10,7 +10,7 @@ class Lifebar extends Component{
 
     render(){       
         let renderHearts = [];
-        for(let i = 0; i < this.props.playerLifes; i++){
+        for(let i = 0; i < this.props.playerLives; i++){
             renderHearts.push(<img src="/life.png" className='life' alt='life'/>)
         }
         return <div className='lifebar'>
