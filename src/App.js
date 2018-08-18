@@ -18,7 +18,7 @@ const SAMPLE_GAME_STATE = {
     playerTrack: 0, // which track the player is looking at
     playerShotCooldown: 0, // amount of ticks before allowed to shoot again (can shoot if 0)
     projectiles: [ // array of current projectiles
-        { track: 1, position: 0.5, id: 'projectile1' }
+        { track: 1, position: 0, id: 'projectile1' }
     ],
     enemies: [
         { track: 1, position: 0.9, speed: 0.4, id: 'enemy1' },
@@ -60,8 +60,7 @@ class App extends Component {
         window.addEventListener('keydown', (e) => {
             switch (e.code) {
                 case 'Space':
-                    // socket.emit('turn_right', { side: 'right' })
-                    //  this.setState({ projectiles: (this.state.projectiles.position +0.1) % SAMPLE_GAME_STATE.maxTracks })
+
                     break;
                 case 'KeyD':
                     // socket.emit('turn_right', { side: 'right' })
