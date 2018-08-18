@@ -87,6 +87,9 @@ class App extends Component {
         return (
             <div className="App">
                 <content className='game'>
+					{this.state.playerLives === 0 && 
+						<div className="error">YOU LOSE</div>
+					}
                     {
                         this.state.enemies.map(enemy => (
 							<Enemy
