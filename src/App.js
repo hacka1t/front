@@ -6,7 +6,7 @@ import Lifebar from './assets/Lifebar';
 import io from 'socket.io-client'
 import './App.css'
 import Scoreboard from './assets/Scoreboard';
-const socket = io.connect('http://192.168.0.35:3001/')
+const socket = io.connect('http://192.168.0.49:3001/')
 
 const SAMPLE_GAME_STATE = {
     // parameters
@@ -55,7 +55,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-
+		console.log('aaa')
         socket.on('gameState', (state) => {
 			this.setState(state)
         })
@@ -63,12 +63,8 @@ class App extends Component {
         window.addEventListener('keydown', (e) => {
             switch (e.code) {
                 case 'Space':
-<<<<<<< HEAD
-
-=======
                     socket.emit('shoot')
                     //  this.setState({ projectiles: (this.state.projectiles.position +0.1) % SAMPLE_GAME_STATE.maxTracks })
->>>>>>> b7b529e73ecdcf88085a5dd81f0744a187f35cb6
                     break;
                 case 'KeyD':
                     socket.emit('turnRight')
