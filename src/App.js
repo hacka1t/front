@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import Player from './assets/Player';
-import Enemy from './assets/Enemy';
+import Player from './assets/Player'
+import Enemy from './assets/Enemy'
+import Projectile from './assets/Projectile'
 import io from 'socket.io-client'
 import './App.css'
 const socket = io.connect('http://localhost:5000/')
@@ -17,8 +18,7 @@ const SAMPLE_GAME_STATE = {
     playerTrack: 0, // which track the player is looking at
     playerShotCooldown: 0, // amount of ticks before allowed to shoot again (can shoot if 0)
     projectiles: [ // array of current projectiles
-        { track: 1, position: 0.5, id: 'projectile1' },
-        { track: 3, position: 0.3, id: 'projectile2' }
+        { track: 1, position: 0.5, id: 'projectile1' }
     ],
     enemies: [
         { track: 1, position: 0.9, speed: 0.4, id: 'enemy1' },
@@ -30,7 +30,8 @@ const SAMPLE_GAME_STATE = {
 		{ track: 7, position: 0.3, speed: 0.3, id: 'enemy4' },
 		{ track: 8, position: 0.2, speed: 0.3, id: 'enemy4' }
     ],
-    tick: 15
+    tick: 15,
+    score: 30
 }
 
 class App extends Component {
@@ -45,7 +46,8 @@ class App extends Component {
             playerLifes: SAMPLE_GAME_STATE.playerLifes, 
             playerTrack: SAMPLE_GAME_STATE.playerTrack, // which track the player is looking at
             playerShotCooldown: SAMPLE_GAME_STATE.playerShotCooldown, // amount of ticks before allowed to shoot again (can shoot if 0)
-            enemies: SAMPLE_GAME_STATE.enemies, // amount of ticks before allowed to shoot again (can shoot if 0)
+            projectiles: SAMPLE_GAME_STATE.projectiles,
+            enemies: SAMPLE_GAME_STATE.enemies // amount of ticks before allowed to shoot again (can shoot if 0)
         }
     }
 
@@ -57,6 +59,10 @@ class App extends Component {
 
         window.addEventListener('keydown', (e) => {
             switch (e.code) {
+                case 'Space':
+                    // socket.emit('turn_right', { side: 'right' })
+                    //  this.setState({ projectiles: (this.state.projectiles.position +0.1) % SAMPLE_GAME_STATE.maxTracks })
+                    break;
                 case 'KeyD':
                     // socket.emit('turn_right', { side: 'right' })
                     this.setState({ playerTrack: (this.state.playerTrack + 1) % SAMPLE_GAME_STATE.maxTracks })
@@ -81,6 +87,16 @@ class App extends Component {
 							<Enemy
 								key={enemy.id} 
 								enemy={enemy}
+								degPerTrack={this.degPerTrack}
+								maxDistance={this.maxDistance}
+							/>
+                        ))
+                    }
+                    {
+                        this.state.projectiles.map(projectile => (
+							<Projectile
+								key={projectile.id} 
+								projectile={projectile}
 								degPerTrack={this.degPerTrack}
 								maxDistance={this.maxDistance}
 							/>
